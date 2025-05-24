@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import AdminPanel from "../layout/AdminPanel";
 import AdminHome from "../adminPages/AdminHome";
 import Users from "../adminPages/Users";
+import SignUp from "../pages/SignUp";
 const router = createBrowserRouter([
     {
       path: "/",
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
         {
           path: "/",
           element:<Home />,
+        },
+        {
+          path:'/signup',
+          element:<SignUp />
         }
       ]
     },
