@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import Swal from 'sweetalert2'; // Ensure SweetAlert2 is imported
 
 const SignUp = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } ,reset} = useForm();
   const [imagePreview, setImagePreview] = useState(null);
 
   const onSubmit = async (data) => {
@@ -22,6 +23,18 @@ const SignUp = () => {
         },
       });
 
+      if (res.data.success) {
+        Swal.fire({
+          title: "Registration Successful!",
+          text: "Your account has been created successfully.",
+          icon: "success",
+          confirmButtonText: "OK",
+          timer: 3000,
+          timerProgressBar: true,
+        });
+      }
+      reset(); // Reset the form after successful submission
+      setImagePreview(null); // Clear the image preview
       console.log('User registered:', res.data);
       // maybe redirect or show success message
     } catch (err) {
@@ -37,10 +50,10 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex max-w-4xl mx-auto bg-slate-100">
+    <div className="flex max-w-4xl mx-auto bg-slate-100 mt-4 mb-4 rounded-xl">
       
       {/* Left Side - Image Preview */}
-      <div className="w-1/2 flex flex-col items-center justify-center bg-gradient-to-br from-red-500 to-yellow-400 p-8">
+      <div className="w-1/2 flex flex-col items-center justify-center bg-gradient-to-br from-red-500 to-yellow-400 p-8 rounded-xl">
         {imagePreview ? (
           <img src={imagePreview} alt="Profile Preview" className="w-60 h-60 object-cover rounded-full" />
         ) : (
@@ -84,8 +97,6 @@ const SignUp = () => {
             />
             {errors.password && <p className="text-red-500">{errors.password.message}</p>}
           </div>
-
-         
 
           <div>
             <label className="block mb-1 font-semibold">Profile Image</label>

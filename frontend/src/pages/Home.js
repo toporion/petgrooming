@@ -1,6 +1,4 @@
 import React from 'react';
-import NavBar from '../components/NavBar';
-import MenuBar from '../components/MenuBar';
 import Banner from '../components/Banner';
 import DogGrooming from '../components/DogGrooming';
 import Services from '../components/Services';
@@ -13,8 +11,7 @@ import NewsLetter from '../components/NewsLetter';
 const Home = () => {
     return (
         <div>
-            <NavBar/>
-            <MenuBar />
+          
             <Banner />
             <DogGrooming />
             <Services />

@@ -17,7 +17,7 @@ const createUser = async (req, res) => {
             profilePicture
         });
         await newUser.save();
-        res.status(201).json({ message: "User created successfully", data: newUser });
+        res.status(201).json({success:true, message: "User created successfully", data: newUser });
 
     } catch (error) {
         console.error("Error creating user:", error);
