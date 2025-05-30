@@ -3,7 +3,7 @@ import React from 'react';
 
 const UseAxiosSecure = () => {
     const axiosSecure =axios.create({
-        baseURL: 'https://petgrooming-ten.vercel.app/api',
+        baseURL: 'https://petgrooming-kxs9.vercel.app/api',
       
     })
     // Add a request interceptor
