@@ -17,7 +17,7 @@ const createUser = async (req, res) => {
             profilePicture
         });
         await newUser.save();
-        res.status(201).json({success:true, message: "User created successfully", data: newUser });
+        res.status(201).json({ success: true, message: "User created successfully", data: newUser });
 
     } catch (error) {
         console.error("Error creating user:", error);
@@ -27,10 +27,10 @@ const createUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
     try {
         const users = await UserModel.find();
-        res.status(200).json({ message: "Users retrieved successfully", data: users });
+        res.status(200).json({ message: "Users retrieved successfully",users });
     } catch (error) {
         console.error("Error retrieving users:", error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({success:true, message: "Internal server error" ,users});
     }
 }
 const deleteUser = async (req, res) => {
@@ -93,6 +93,7 @@ const loginUser = async (req, res) => {
             { expiresIn: '1h' }
         )
         res.status(200).json({
+            success: true,
             message: "Login successful",
             jwtToken,
             user: {
@@ -109,11 +110,58 @@ const loginUser = async (req, res) => {
     }
 }
 
+const getUserByEmail = async (req, res) => {
+    try {
+        const email = req.query.email;
+        if (!email) {
+            return res.status(400).json({ success: false, message: "Email is required" })
+        }
+        const user = await UserModel.findOne({ email })
+        res.status(200).json({
+            success: true,
+            message: "User fetched successfully",
+            user: {
+                name: user.name,
+                email: user.email,
+                image: user.profilePicture,
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message
+        })
+    }
+}
+
+const makeRole=async(req,res)=>{
+    try{
+        const {id}= req.params;
+        const { role } = req.body;
+        const newRole=await UserModel.findOneAndUpdate(
+            { _id: id },
+            { role: role },
+            { new: true }
+        );
+        if (!newRole) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ message: "Role updated successfully", data: newRole });
+    }catch(error){
+        console.error("Error making role:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
 module.exports = {
     createUser,
     getAllUsers,
     deleteUser,
     updateUser,
     getUserById,
-    loginUser
+    loginUser,
+    getUserByEmail,
+    makeRole
 };
