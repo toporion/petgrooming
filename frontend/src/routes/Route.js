@@ -11,6 +11,7 @@ import Login from "../pages/Login";
 import RoleRoute from "../hook/RoleRoute";
 import AddProductForm from "../adminPages/AddProductForm";
 import Shop from "../pages/Shop";
+import ShowDetails from "../pages/ShowDetails";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
         element: <Login />
       },
       {path: '/shop',element:<Shop />},
+      {path: '/showDetails/:id',element:<ShowDetails />},
     ]
   },
   {

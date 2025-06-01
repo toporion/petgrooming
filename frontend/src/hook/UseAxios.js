@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const UseAxios = () => { 
     const axiosPublic=axios.create({
-        baseURL:'https://petgrooming-kxs9.vercel.app/api', // Replace with your API base URL
+        baseURL:'http://localhost:8080/api', // Replace with your API base URL
     }) 
     return axiosPublic;
 };

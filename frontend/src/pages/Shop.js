@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import UseAxios from '../hook/UseAxios';
 import ShopSideBar from '../components/ShopSideBar';
+import { Link } from 'react-router-dom';
 
 const Shop = () => {
   const axiosPublic = UseAxios();
@@ -22,6 +23,7 @@ const Shop = () => {
       const res = await axiosPublic.get('/get-all-products', {
         params: { page, limit, search }
       });
+      console.log(res.data.data)
       return res.data.data;
     }
   });
@@ -53,7 +55,7 @@ const Shop = () => {
           {products.map((product) => (
             <div
               key={product._id}
-              className="card bg-base-100 shadow-md w-full h-[350px] flex flex-col"
+              className="relative card bg-base-100 shadow-md w-full h-[350px] flex flex-col group overflow-hidden"
             >
               <figure className="h-[150px] overflow-hidden">
                 <img
@@ -64,17 +66,19 @@ const Shop = () => {
               </figure>
               <div className="card-body p-4 flex flex-col justify-between">
                 <div>
-                  <h2 className="card-title text-base font-bold">
-                    {product.name}
-                  </h2>
-                  <p className="text-sm text-gray-600">
-                    {conkateText(15, product.description)}
-                  </p>
+                  <h2 className="card-title text-base font-bold">{product.name}</h2>
+                  <p className="text-sm text-gray-600">{conkateText(15, product.description)}</p>
                 </div>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-green-600 font-bold">${product.sellPrice}</span>
                   <span className="badge badge-outline">{product.category}</span>
                 </div>
+              </div>
+
+              {/* Hover Effect */}
+              <div className="absolute inset-0 bg-yellow-500 bg-opacity-50 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-full transition-all duration-300">
+                <button className="btn btn-sm btn-primary">Add to Cart</button>
+                <Link to={`/showDetails/${product._id}`}><button className="btn btn-sm btn-secondary">Show Details</button></Link>
               </div>
             </div>
           ))}

@@ -47,12 +47,20 @@ const getAllProducts = async (req, res) => {
             .sort({ createdAt: -1 });
 
         const totalPages = Math.ceil(totalProducts / limit);
-
+        const categoryCount=products.reduce((acc,product)=>{
+            if(!acc[product.category]){
+                acc[product.category]=1;
+            }else{
+                acc[product.category]++;
+            }
+            return acc;
+        },{})
         res.status(200).json({
             success: true,
             message: "Products fetched successfully",
             data: {
                 products,
+                categoryCount,
                 pagination: {
                     currentPage: page,
                     totalPages,
